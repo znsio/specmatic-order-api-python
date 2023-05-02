@@ -6,6 +6,7 @@ from api.db import Database
 
 app = Flask(__name__)
 
+
 @app.route('/products', methods=['GET'])
 def get_products():
     name = request.args.get("name", default="", type=str)
