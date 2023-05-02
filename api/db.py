@@ -33,12 +33,12 @@ class Database:
         Database._products[product.id] = product
 
     @staticmethod
-    def update_product(product_id: int, product_request):
-        product = Database.find_product_by_id(product_id)
-        product.name = product_request.get("name")
-        product.type = product_request.get("type")
-        product.inventory = product_request.get("inventory")
-        Database._products[product_id] = product
+    def update_product(product_id: int, product: Product):
+        existing = Database.find_product_by_id(product_id)
+        existing.name = product.name
+        existing.type = product.type
+        existing.inventory = product.inventory
+        Database._products[product_id] = existing
 
     @staticmethod
     def inventory_status(product_id: int):
@@ -71,11 +71,10 @@ class Database:
         Database._products[product_id] = product
 
     @staticmethod
-    def update_order(order_request):
-        order_id = order_request.get("id")
-        order = Database.find_order_by_id(order_id)
-        order.productid = order_request.get("product_id")
-        order.count = order_request.get("count")
-        order.status = order_request.get("status")
-        Database._orders[order_id] = order
+    def update_order(order: Order):
+        existing = Database.find_order_by_id(order.id)
+        existing.productid = order.productid
+        existing.count = order.count
+        existing.status = order.status
+        Database._orders[order.id] = existing
 

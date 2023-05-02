@@ -32,8 +32,7 @@ def get_product(product_id):
 
 @app.route('/products', methods=['POST'])
 def add_product():
-    product_request = ProductSchema().load(request.get_json())
-    product = Product(product_request.get('name'), product_request.get('type'), product_request.get('inventory'))
+    product:Product = ProductSchema().load(request.get_json())
     Database.add_product(product)
     schema = IdSchema()
     return jsonify(schema.dump(Id(product.id)))
@@ -44,8 +43,8 @@ def update_product(product_id):
     product = Database.find_product_by_id(product_id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404
-    product_request = ProductSchema().load(request.get_json())
-    Database.update_product(product_id, product_request)
+    product: Product = ProductSchema().load(request.get_json())
+    Database.update_product(product_id, product)
     return '', 200
 
 
@@ -79,11 +78,8 @@ def get_order(order_id):
 
 @app.route('/orders', methods=['POST'])
 def add_order():
-    order_request = OrderSchema().load(request.get_json())
-    product_id = order_request.get('productid')
-    count = order_request.get('count')
-    Database.reserve_product_inventory(product_id, count)
-    order = Order(product_id, count, order_request.get('status'))
+    order: Order = OrderSchema().load(request.get_json())
+    Database.reserve_product_inventory(order.productid, order.count)
     Database.add_order(order)
     schema = IdSchema()
     return jsonify(schema.dump(Id(order.id)))
@@ -91,8 +87,8 @@ def add_order():
 
 @app.route('/orders/<int:order_id>', methods=['POST'])
 def update_order(order_id):
-    order_request = OrderSchema().load(request.get_json())
-    Database.update_order(order_request)
+    order = OrderSchema().load(request.get_json())
+    Database.update_order(order)
     return '', 200
 
 
