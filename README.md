@@ -52,27 +52,27 @@ The open api contract for the services is defined in the [Specmatic Central Cont
   ```specmatic test  --host="127.0.0.1" --port=5000```  
   This should print the following output:  
   
-    |------------------------------------------------------|
-    | API COVERAGE SUMMARY                                 |
-    |------------------------------------------------------|
-    |  status |           path | method | response | count |
-    |---------|----------------|--------|----------|-------|
-    | covered |        /orders |    GET |      200 |     1 |
-    |         |                |   POST |      200 |     1 |
-    | covered |   /orders/{id} | DELETE |      200 |     1 |
-    |         |                |    GET |      200 |     1 |
-    |         |                |        |      404 |     1 |
-    |         |                |   POST |      200 |     1 |
-    | covered |      /products |    GET |      200 |     2 |
-    |         |                |        |      500 |     1 |
-    |         |                |   POST |      200 |     1 |
-    | covered | /products/{id} | DELETE |      200 |     1 |
-    |         |                |    GET |      200 |     1 |
-    |         |                |        |      404 |     1 |
-    |         |                |   POST |      200 |     1 |
-    |------------------------------------------------------|
-    | 4 / 4 APIs covered                                   |
-    |------------------------------------------------------|
-    Tests run: 14, Successes: 14, Failures: 0, Errors: 0
+    |------------------------------------------------------|  
+    | API COVERAGE SUMMARY                                 |  
+    |------------------------------------------------------|  
+    |  status |           path | method | response | count |  
+    |---------|----------------|--------|----------|-------|  
+    | covered |        /orders |    GET |      200 |     1 |  
+    |         |                |   POST |      200 |     1 |  
+    | covered |   /orders/{id} | DELETE |      200 |     1 |  
+    |         |                |    GET |      200 |     1 |  
+    |         |                |        |      404 |     1 |  
+    |         |                |   POST |      200 |     1 |  
+    | covered |      /products |    GET |      200 |     2 |  
+    |         |                |        |      500 |     1 |  
+    |         |                |   POST |      200 |     1 |  
+    | covered | /products/{id} | DELETE |      200 |     1 |  
+    |         |                |    GET |      200 |     1 |  
+    |         |                |        |      404 |     1 |  
+    |         |                |   POST |      200 |     1 |  
+    |------------------------------------------------------|  
+    | 4 / 4 APIs covered                                   |  
+    |------------------------------------------------------|  
+    Tests run: 14, Successes: 14, Failures: 0, Errors: 0  
     
  
