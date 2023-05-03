@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, request
 
+from api import app
 from api.models import Id, Product, Order
 from api.schemas import ProductSchema, IdSchema, OrderSchema
 from api.db import Database
-from app import app
 
 
 @app.route('/products', methods=['GET'])
