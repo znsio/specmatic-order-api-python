@@ -19,10 +19,18 @@ jobs:
       uses: airslate-oss/setup-specmatic@v1
       with:
         specmatic-version: 0.65.0
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+          python-version: '3.11'
+          cache: 'pip'
+    - name: Run pip install
+      working-directory: main
+      run: pip install -r requirements.txt
     - name: Run flask application
       working-directory: main
       run: flask run &
-    - name: Wait for springboot application to start
+    - name: Wait for flask application to start
       run: sleep 5s
       shell: bash
     - name: Run contract as tests with Specmatic
