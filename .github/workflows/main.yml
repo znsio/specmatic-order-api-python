@@ -1,0 +1,36 @@
+name: CI with contracts run through command line
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: main
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Setup specmatic
+      uses: airslate-oss/setup-specmatic@v1
+      with:
+        specmatic-version: 0.65.0
+    - name: Run flask application
+      working-directory: main
+      run: flask run &
+    - name: Wait for springboot application to start
+      run: sleep 5s
+      shell: bash
+    - name: Run contract as tests with Specmatic
+      working-directory: main
+      #ideally specmatic jar file can be downloaded on the fly, checking it in to avoid repeated downloads
+      run: specmatic test --port 5000 --junitReportDir contract-test-reports
+    - name: Publish contract test report
+      uses: mikepenz/action-junit-report@v3
+      if: always()
+      with:
+        report_paths: '**/contract-test-reports/TEST-*.xml'
