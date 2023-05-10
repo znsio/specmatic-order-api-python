@@ -35,10 +35,9 @@ jobs:
     - name: Wait for flask application to start
       run: sleep 5s
       shell: bash
-    - name: Run contract as tests with Specmatic
+    - name: Run contract as tests with Specmatic Python Extensions
       working-directory: main
-      #ideally specmatic jar file can be downloaded on the fly, checking it in to avoid repeated downloads
-      run: specmatic test --host 127.0.0.1 --port 5000 --junitReportDir contract-test-reports
+      run: pytest test -v --junitxml contract-test-reports/TEST-junit-jupiter.xml
     - name: Publish contract test report
       uses: mikepenz/action-junit-report@v3
       if: always()
