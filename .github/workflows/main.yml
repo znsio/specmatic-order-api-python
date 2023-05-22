@@ -25,12 +25,6 @@ jobs:
     - name: Run pip install
       working-directory: main
       run: pip install -r requirements.txt
-    - name: Run flask application
-      working-directory: main
-      run: flask run &
-    - name: Wait for flask application to start
-      run: sleep 5s
-      shell: bash
     - name: Run contract as tests with Specmatic Python Extensions
       working-directory: main
       run: pytest test -v --junitxml contract-test-reports/TEST-junit-jupiter.xml
