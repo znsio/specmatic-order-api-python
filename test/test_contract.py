@@ -1,20 +1,18 @@
 import pytest
-from specmatic.core.decorators import start_flask_app, specmatic_contract_test
+from specmatic.core.specmatic import Specmatic
+from definitions import ROOT_DIR
+
 from api import app
 
-host = "127.0.0.1"
-port = 5000
 
-
-@specmatic_contract_test(host, port)
-@start_flask_app(app, host, port)
 class TestContract:
-    @classmethod
-    def teardown_class(cls):
-        cls.flask_server.stop()
+    pass
 
 
-
+Specmatic.test_wsgi_app(app,
+                        TestContract,
+                        with_stub=False,
+                        project_root=ROOT_DIR)
 
 if __name__ == '__main__':
     pytest.main()
