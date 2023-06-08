@@ -1,5 +1,7 @@
 import pytest
 from specmatic.core.specmatic import Specmatic
+from specmatic.servers.wsgi_app_server import WSGIAppServer
+
 from definitions import ROOT_DIR
 
 from api import app
@@ -9,10 +11,12 @@ class TestContract:
     pass
 
 
-Specmatic.test_wsgi_app(app,
-                        TestContract,
-                        with_stub=False,
-                        project_root=ROOT_DIR)
+app_server = WSGIAppServer(app)
+Specmatic() \
+    .with_project_root(ROOT_DIR) \
+    .app(app_server) \
+    .test(TestContract) \
+    .run()
 
 if __name__ == '__main__':
     pytest.main()
