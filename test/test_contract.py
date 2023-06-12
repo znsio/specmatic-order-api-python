@@ -11,7 +11,7 @@ class TestContract:
 
 Specmatic() \
     .with_project_root(ROOT_DIR) \
-    .with_app(app) \
+    .with_wsgi_app(app) \
     .test(TestContract) \
     .run()
 
