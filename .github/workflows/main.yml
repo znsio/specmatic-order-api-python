@@ -32,19 +32,16 @@ jobs:
       run: pip install -r requirements.txt
     - name: Run contract as tests with Specmatic Python Extensions
       working-directory: main
-      run: coverage run -m pytest test -v --junitxml contract-test-reports/TEST-junit-jupiter.xml
+      run: pytest test -v --junitxml contract-test-reports/TEST-junit-jupiter.xml --cov=api --cov-report=term > coverage.txt
     - name: Publish contract test report
       uses: mikepenz/action-junit-report@v3
       if: always()
       with:
         report_paths: '**/contract-test-reports/TEST-*.xml'
-    - name: Generate coverage report
-      working-directory: main
-      run: coverage report > coverage-summary.txt
     - name: Pytest coverage comment
       uses: MishaKav/pytest-coverage-comment@main
       with:
-        pytest-coverage-path: main/coverage-summary.txt
+        pytest-coverage-path: main/coverage.txt
         junitxml-path: main/contract-test-reports/TEST-junit-jupiter.xml
 
 
