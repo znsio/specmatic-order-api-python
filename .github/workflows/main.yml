@@ -42,6 +42,7 @@ jobs:
       working-directory: main
       run: coverage report > coverage-summary.txt
     - name: Pytest coverage comment
+      working-directory: main
       uses: MishaKav/pytest-coverage-comment@main
       with:
         pytest-coverage-path: coverage-summary.txt
