@@ -42,9 +42,8 @@ jobs:
       working-directory: main
       run: coverage report -m
     - name: Upload coverage report
-      working-directory: main
       uses: actions/upload-artifact@v2
       with:
         name: coverage-report
-        path: htmlcov
+        path: .
 
