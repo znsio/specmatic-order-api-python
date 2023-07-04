@@ -43,5 +43,13 @@ jobs:
       with:
         pytest-coverage-path: main/coverage.txt
         junitxml-path: main/contract-test-reports/TEST-junit-jupiter.xml
+        title: Coverage Report
+        badge-title: Specmatic Order API Python Coverage
+        hide-badge: false
+        hide-report: false
+        create-new-comment: false
+        hide-comment: false
+        report-only-changed-files: false
+        remove-link-from-badge: false
 
 
