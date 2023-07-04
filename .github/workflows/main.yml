@@ -40,16 +40,11 @@ jobs:
         report_paths: '**/contract-test-reports/TEST-*.xml'
     - name: Generate coverage report
       working-directory: main
-      run: coverage xml -o coverage.xml
-    - name: Display coverage summary
-      on:
-        push:
-          branches: [ main ]
-        pull_request:
-          branches: [ main ]
-      uses: orgoro/coverage@v3.1
+      run: coverage report > coverage-summary.txt
+    - name: Pytest coverage comment
+      uses: MishaKav/pytest-coverage-comment@main
       with:
-        coverageFile: coverage.xml
-        token: ${{ secrets.GITHUB_TOKEN }}
+        pytest-coverage-path: ./coverage-summary.txt
+        junitxml-path: ./contract-test-reports/TEST-junit-jupiter.xml
 
 
