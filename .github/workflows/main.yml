@@ -42,7 +42,6 @@ jobs:
       working-directory: main
       run: coverage report > coverage-summary.txt
     - name: Display coverage summary
-      uses: codecov/codecov-action@v2
       run: |
         echo "## Coverage Summary"
         cat coverage-summary.txt
