@@ -42,7 +42,7 @@ jobs:
       working-directory: main
       run: coverage xml -o coverage.xml
     - name: Upload coverage report
-      uses: codecov/codecov-action@v2.0.0
+      uses: codecov/codecov-action@v3
       with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage.xml
