@@ -40,11 +40,11 @@ jobs:
         report_paths: '**/contract-test-reports/TEST-*.xml'
     - name: Generate coverage report
       working-directory: main
-      run: coverage report > coverage-summary.txt
+      run: coverage xml -o coverage.xml
     - name: Display coverage summary
-      working-directory: main
-      run: |
-        echo "## Coverage Summary"
-        cat ./coverage-summary.txt
+      uses: orgoro/coverage@v3.1
+      with:
+        coverageFile: coverage.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
 
 
