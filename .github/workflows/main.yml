@@ -42,8 +42,9 @@ jobs:
       working-directory: main
       run: coverage report > coverage-summary.txt
     - name: Display coverage summary
+      working-directory: main
       run: |
         echo "## Coverage Summary"
-        cat coverage-summary.txt
+        cat ./coverage-summary.txt
 
 
