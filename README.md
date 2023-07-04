@@ -56,10 +56,8 @@ The open api contract for the services is defined in the [Specmatic Central Cont
     } ```   
 
 
-- **Validate contract using Specmatic**  
-  Download the Specmatic standalone jar from the [specmatic website](https://specmatic.in/getting_started.html)  
-  With the flask api server running on ```http://127.0.0.1:5000/```, open another terminal window in the root folder and run:  
-  ```python run_specmatic.py --specmaticJarPath=<Path to specmatic.jar>```  
+- **Validate contract using Specmatic**
+  ```pytest test -v -s```  
   This should print the following output:  
     Tests run: 14, Successes: 14, Failures: 0, Errors: 0  
     
