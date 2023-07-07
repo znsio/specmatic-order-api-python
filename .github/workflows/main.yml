@@ -32,7 +32,7 @@ jobs:
       run: pip install -r requirements.txt
     - name: Run contract as tests with Specmatic Python Extensions
       working-directory: main
-      run: coverage run -m pytest test -v --junitxml contract-test-reports/TEST-junit-jupiter.xml
+      run: coverage run --branch -m pytest test -v --junitxml contract-test-reports/TEST-junit-jupiter.xml
     - name: Publish contract test report
       uses: mikepenz/action-junit-report@v3
       if: always()
