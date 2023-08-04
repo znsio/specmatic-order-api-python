@@ -19,10 +19,10 @@ def get_products():
     return jsonify(schema.dump(Database.find_products(name, product_type, status)))
 
 
-@app.route('/products/<int:product_id>', methods=['GET'])
-def get_product(product_id):
+@app.route('/products/<int:id>', methods=['GET'])
+def get_product(id):
     schema = ProductSchema()
-    product = Database.find_product_by_id(product_id)
+    product = Database.find_product_by_id(id)
     if product:
         return jsonify(schema.dump(product))
     else:
@@ -37,22 +37,22 @@ def add_product():
     return jsonify(schema.dump(Id(product.id)))
 
 
-@app.route('/products/<int:product_id>', methods=['POST'])
-def update_product(product_id):
-    product = Database.find_product_by_id(product_id)
+@app.route('/products/<int:id>', methods=['POST'])
+def update_product(id):
+    product = Database.find_product_by_id(id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404
     product: Product = ProductSchema().load(request.get_json())
-    Database.update_product(product_id, product)
+    Database.update_product(id, product)
     return '', 200
 
 
-@app.route('/products/<int:product_id>', methods=['DELETE'])
-def delete_product(product_id):
-    product = Database.find_product_by_id(product_id)
+@app.route('/products/<int:id>', methods=['DELETE'])
+def delete_product(id):
+    product = Database.find_product_by_id(id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404
-    Database.delete_product(product_id)
+    Database.delete_product(id)
     return '', 200
 
 
@@ -65,10 +65,10 @@ def get_orders():
     return jsonify(schema.dump(Database.find_orders(product_id, status)))
 
 
-@app.route('/orders/<int:order_id>', methods=['GET'])
-def get_order(order_id):
+@app.route('/orders/<int:id>', methods=['GET'])
+def get_order(id):
     schema = OrderSchema()
-    order = Database.find_order_by_id(order_id)
+    order = Database.find_order_by_id(id)
     if order:
         return jsonify(schema.dump(order))
     else:
@@ -84,14 +84,14 @@ def add_order():
     return jsonify(schema.dump(Id(order.id)))
 
 
-@app.route('/orders/<int:order_id>', methods=['POST'])
-def update_order(order_id):
+@app.route('/orders/<int:id>', methods=['POST'])
+def update_order(id):
     order = OrderSchema().load(request.get_json())
     Database.update_order(order)
     return '', 200
 
 
-@app.route('/orders/<int:order_id>', methods=['DELETE'])
-def delete_order(order_id):
-    Database.delete_order(order_id)
+@app.route('/orders/<int:id>', methods=['DELETE'])
+def delete_order(id):
+    Database.delete_order(id)
     return '', 200
