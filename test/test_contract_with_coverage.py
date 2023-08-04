@@ -12,7 +12,7 @@ class TestContract:
 Specmatic() \
     .with_project_root(ROOT_DIR) \
     .with_wsgi_app(app) \
-    .test_with_api_coverage_for_flask_app(TestContract) \
+    .test_with_api_coverage_for_flask_app(TestContract, app) \
     .run()
 
 if __name__ == '__main__':
