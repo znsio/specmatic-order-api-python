@@ -8,7 +8,7 @@ The open api contract for the services is defined in the [Specmatic Central Cont
 
 - Install Python 3.11 ( use homebrew if you are on mac os)
 
-- Install JRE 17
+- Install JRE 17 or later
 
 - Install pip
 
