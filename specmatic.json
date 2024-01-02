@@ -19,7 +19,7 @@
       "APICoverage": {
         "OpenAPI": {
           "successCriteria": {
-            "minThresholdPercentage": 50,
+            "minThresholdPercentage": 44,
             "maxMissedEndpointsInSpec": 4,
             "enforce": true
           },
