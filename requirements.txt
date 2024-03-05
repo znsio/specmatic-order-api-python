@@ -2,4 +2,4 @@ Flask==3.0.2
 marshmallow==3.21.1
 pytest==8.0.2
 specmatic==0.26.7
-coverage==7.2.7
+coverage==7.4.3
