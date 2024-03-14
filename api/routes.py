@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 
 from api import app
 from api.models import Id, Product, Order
@@ -13,7 +13,7 @@ def get_products():
     status = request.args.get("status", default="", type=str)
 
     if name == "unknown":
-        return '', 500
+        return Response('', 500, mimetype="application/json")
 
     schema = ProductSchema(many=True)
     return jsonify(schema.dump(Database.find_products(name, product_type, status)))
@@ -44,7 +44,7 @@ def update_product(id):
         return jsonify({'error': 'Product not found'}), 404
     product: Product = ProductSchema().load(request.get_json())
     Database.update_product(id, product)
-    return '', 200
+    return Response('', 200, mimetype="text/plain")
 
 
 @app.route('/products/<int:id>', methods=['DELETE'])
@@ -53,7 +53,7 @@ def delete_product(id):
     if not product:
         return jsonify({'error': 'Product not found'}), 404
     Database.delete_product(id)
-    return '', 200
+    return Response('', 200, mimetype="text/plain")
 
 
 @app.route('/orders', methods=['GET'])
@@ -88,10 +88,10 @@ def add_order():
 def update_order(id):
     order = OrderSchema().load(request.get_json())
     Database.update_order(order)
-    return '', 200
+    return Response('', 200, mimetype="text/plain")
 
 
 @app.route('/orders/<int:id>', methods=['DELETE'])
 def delete_order(id):
     Database.delete_order(id)
-    return '', 200
+    return Response('', 200, mimetype="text/plain")
