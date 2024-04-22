@@ -1,13 +1,13 @@
+import os
 import pytest
 from specmatic.core.specmatic import Specmatic
-
 from api import app
 from definitions import ROOT_DIR
-
 
 class TestContract:
     pass
 
+os.environ['SPECMATIC_GENERATIVE_TESTS'] = 'true'
 
 Specmatic() \
     .with_project_root(ROOT_DIR) \
