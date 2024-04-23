@@ -4,7 +4,8 @@ from marshmallow import ValidationError
 from api import app
 from api.models import Id, Product, Order
 from api.schemas import ProductSchema, IdSchema, OrderSchema
-from api.service import Service
+from api.services.productService import ProductService
+from api.services.orderService import OrderService
 
 @app.errorhandler(ValidationError)
 def handle_validation_error(error):
@@ -37,13 +38,13 @@ def get_products():
         return jsonify({'error': 'Invalid product type'}), 400
 
     schema = ProductSchema(many=True)
-    return jsonify(schema.dump(Service.find_products(name, product_type, status)))
+    return jsonify(schema.dump(ProductService.find_products(name, product_type, status)))
 
 
 @app.route('/products/<int:id>', methods=['GET'])
 def get_product(id):
     schema = ProductSchema()
-    product = Service.find_product_by_id(id)
+    product = ProductService.find_product_by_id(id)
     if product:
         return jsonify(schema.dump(product))
     else:
@@ -53,27 +54,27 @@ def get_product(id):
 @app.route('/products', methods=['POST'])
 def add_product():
     product:Product = ProductSchema().load(request.get_json())
-    Service.add_product(product)
+    ProductService.add_product(product)
     schema = IdSchema()
     return jsonify(schema.dump(Id(product.id)))
 
 
 @app.route('/products/<int:id>', methods=['POST'])
 def update_product(id):
-    product = Service.find_product_by_id(id)
+    product = ProductService.find_product_by_id(id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404
     product: Product = ProductSchema().load(request.get_json())
-    Service.update_product(id, product)
+    ProductService.update_product(id, product)
     return Response('', 200, mimetype="text/plain")
 
 
 @app.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
-    product = Service.find_product_by_id(id)
+    product = ProductService.find_product_by_id(id)
     if not product:
         return jsonify({'error': 'Product not found'}), 404
-    Service.delete_product(id)
+    ProductService.delete_product(id)
     return Response('', 200, mimetype="text/plain")
 
 
@@ -89,13 +90,13 @@ def get_orders():
     status = request.args.get("status", type=str)
 
     schema = OrderSchema(many=True)
-    return jsonify(schema.dump(Service.find_orders(product_id, status)))
+    return jsonify(schema.dump(OrderService.find_orders(product_id, status)))
 
 
 @app.route('/orders/<int:id>', methods=['GET'])
 def get_order(id):
     schema = OrderSchema()
-    order = Service.find_order_by_id(id)
+    order = OrderService.find_order_by_id(id)
     if order:
         return jsonify(schema.dump(order))
     else:
@@ -105,8 +106,8 @@ def get_order(id):
 @app.route('/orders', methods=['POST'])
 def add_order():
     order: Order = OrderSchema().load(request.get_json())
-    Service.reserve_product_inventory(order.productid, order.count)
-    Service.add_order(order)
+    ProductService.reserve_product_inventory(order.productid, order.count)
+    OrderService.add_order(order)
     schema = IdSchema()
     return jsonify(schema.dump(Id(order.id)))
 
@@ -114,11 +115,11 @@ def add_order():
 @app.route('/orders/<int:id>', methods=['POST'])
 def update_order(id):
     order = OrderSchema().load(request.get_json())
-    Service.update_order(order)
+    OrderService.update_order(order)
     return Response('', 200, mimetype="text/plain")
 
 
 @app.route('/orders/<int:id>', methods=['DELETE'])
 def delete_order(id):
-    Service.delete_order(id)
+    OrderService.delete_order(id)
     return Response('', 200, mimetype="text/plain")

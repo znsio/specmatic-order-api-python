@@ -1,7 +1,7 @@
 from api.db import Database
-from api.models import Product, Order
+from api.models import Product
 
-class Service:
+class ProductService:
     @staticmethod
     def find_products(name: str, product_type: str, status: str):
         return Database.find_products(name, product_type, status)
@@ -27,25 +27,5 @@ class Service:
         return Database.inventory_status(product_id)
 
     @staticmethod
-    def find_orders(product_id: int, status: str):
-        return Database.find_orders(product_id, status)
-
-    @staticmethod
-    def find_order_by_id(order_id: int):
-        return Database.find_order_by_id(order_id)
-
-    @staticmethod
-    def delete_order(order_id: int):
-        Database.delete_order(order_id)
-
-    @staticmethod
-    def add_order(order: Order):
-        Database.add_order(order)
-
-    @staticmethod
     def reserve_product_inventory(product_id: int, count: int):
         Database.reserve_product_inventory(product_id, count)
-
-    @staticmethod
-    def update_order(order: Order):
-        Database.update_order(order)
