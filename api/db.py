@@ -13,11 +13,13 @@ class Database:
     }
 
     @staticmethod
-    def find_products(name: str, product_type: str, status: str):
-        return [product for id, product in Database._products.items() if (
-                product.name.lower() == name.lower()
-                or product.type.lower() == product_type.lower()
-                or Database.inventory_status(id) == status)]
+    def find_products(name: str = None, product_type: str = None, status: str = None):
+        return [
+            product for id, product in Database._products.items()
+            if (name is None or product.name.lower() == name.lower()) and
+            (product_type is None or product.type.lower() == product_type.lower()) and
+            (status is None or Database.inventory_status(id) == status)
+        ]
 
     @staticmethod
     def find_product_by_id(product_id: int):
@@ -46,10 +48,12 @@ class Database:
         return 'sold' if product.inventory == 0 else 'available'
 
     @staticmethod
-    def find_orders(product_id: int, status: str):
-        return [order for id, order in Database._orders.items() if (
-                order.productid == product_id
-                or order.status.lower() == status.lower())]
+    def find_orders(product_id: int = None, status: str = None):
+        return [
+            order for id, order in Database._orders.items()
+            if (product_id is None or order.productid == product_id) and
+            (status is None or order.status.lower() == status.lower())
+        ]
 
     @staticmethod
     def find_order_by_id(order_id: int):
