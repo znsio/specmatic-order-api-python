@@ -10,7 +10,6 @@ from api.services.orderService import OrderService
 product_service = ProductService()
 order_service = OrderService()
 
-
 @app.errorhandler(ValidationError)
 def handle_validation_error(error):
     return jsonify({
@@ -24,10 +23,10 @@ def handle_validation_error(error):
 def handle_404_error(error):
     return jsonify({
         "timestamp": '',
-        'status': 400,
+        'status': 404,
         'error': '',
         'message': 'Invalid path parameter'
-    }), 400
+    }), 404
 
 @app.route('/products', methods=['GET'])
 def get_products():
