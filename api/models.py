@@ -1,34 +1,35 @@
-import itertools
+import enum
+from typing import TypedDict
 
 
-class Product(object):
-    id_iter = itertools.count(1)
+class ProductType(str, enum.Enum):
+    GADGET = "gadget"
+    FOOD = "food"
+    BOOK = "book"
+    OTHER = "other"
 
-    def __init__(self, name: str, type: str, inventory: int, id=0):
-        self.name = name
-        self.type = type
-        self.inventory = inventory
-        if id != 0:
-            self.id = id
-        else:
-            self.id = next(Product.id_iter)
+    def __str__(self):
+        return self.value
 
 
-class Order(object):
-    id_iter = itertools.count(1)
+class OrderStatus(str, enum.Enum):
+    FULFILLED = "fulfilled"
+    PENDING = "pending"
+    CANCELLED = "cancelled"
 
-    def __init__(self, productid: int, count: int, status: str, id=0):
-        self.productid = productid
-        self.count = count
-        self.status = status
-        if id != 0:
-            self.id = id
-        else:
-            self.id = next(Order.id_iter)
+    def __str__(self):
+        return self.value
 
 
-class Id(object):
-    def __init__(self, id: int):
-        self.id = id
+class Product(TypedDict):
+    name: str
+    product_type: ProductType
+    inventory: int
+    id: int
 
 
+class Order(TypedDict):
+    product_id: int
+    count: int
+    status: OrderStatus
+    id: int
