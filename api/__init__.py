@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from flask import Flask, Response, jsonify, request
+from flask import Flask, jsonify
 from marshmallow import ValidationError
 from werkzeug.exceptions import HTTPException
 
@@ -9,26 +9,22 @@ app.url_map.strict_slashes = False
 
 
 @app.errorhandler(ValidationError)
-def handle_marshmallow_validation_error(_: "ValidationError"):
+def handle_marshmallow_validation_error(e: "ValidationError"):
     return jsonify(
         timestamp=datetime.now(tz=UTC).isoformat(),
-        path=request.path,
         status=400,
         error="Bad Request",
+        message=",".join(e.messages),
     ), 400
 
 
 @app.errorhandler(HTTPException)
 def http_error_handler(e):
-    # NOTE: API SPEC expects empty application/json response for 500
-    if e.code == 500:
-        return Response("", 500, mimetype="application/json")
-
     return jsonify(
         timestamp=datetime.now(tz=UTC).isoformat(),
-        path=request.path,
         status=e.code,
         error=e.name,
+        message=e.description,
     ), e.code
 
 

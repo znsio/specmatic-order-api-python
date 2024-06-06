@@ -33,25 +33,25 @@ def add_order():
 @orders.route("/<int:id>", methods=["GET"])
 def get_order(id: int):
     order = Database.find_order_by_id(id)
-    if order:
-        return order_schema.dump(order)
-    return abort(404, "Order not found")
+    if not order:
+        return abort(404, f"Order with {id} was not found")
+    return order_schema.dump(order)
 
 
 @orders.route("/<int:id>", methods=["POST"])
 def update_order(id: int):
     order = Database.find_order_by_id(id)
     if not order:
-        return abort(404, "Order not found")
+        return abort(404, f"Order with {id} was not found")
     new_data: Order = order_schema.load(request.json)  # type: ignore[return-value]
     Database.update_order(order, new_data)
-    return Response("", 200, mimetype="text/plain")
+    return Response("success", 200, mimetype="text/plain")
 
 
 @orders.route("/<int:id>", methods=["DELETE"])
 def delete_order(id: int):
     order = Database.find_order_by_id(id)
     if not order:
-        return abort(404, "Order not found")
+        return abort(404, f"Order with {id} was not found")
     Database.delete_order(id)
-    return Response("", 200, mimetype="text/plain")
+    return Response("success", 200, mimetype="text/plain")

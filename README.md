@@ -2,7 +2,7 @@
 
 ## The implementation is based on [Python Flask](https://flask.palletsprojects.com/en/3.0.x/)
 
-The open api contract for the services is defined in the [Specmatic Central Contract Repository](https://github.com/znsio/specmatic-order-contracts/blob/main/in/specmatic/examples/store/api_order_v1.yaml)
+The open api contract for the services is defined in the [Specmatic Central Contract Repository](https://github.com/znsio/specmatic-order-contracts/blob/main/in/specmatic/examples/store/api_order_v3.yaml)
 
 ### `Dev Setup`
 
@@ -94,5 +94,5 @@ The open api contract for the services is defined in the [Specmatic Central Cont
 - This should print the following output:
   
   ```cmd
-  Tests run: 14, Successes: 14, Failures: 0, Errors: 0
+  Tests run: 19, Successes: 19, Failures: 0, Errors: 0
   ```
