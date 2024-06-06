@@ -42,7 +42,8 @@ def get_order(id: int):
 def update_order(id: int):
     order = Database.find_order_by_id(id)
     if not order:
-        return abort(404, f"Order with {id} was not found")
+        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across Node and Python
+        return Response("success", 200, mimetype="text/plain")
     new_data: Order = order_schema.load(request.json)  # type: ignore[return-value]
     Database.update_order(order, new_data)
     return Response("success", 200, mimetype="text/plain")
@@ -52,6 +53,7 @@ def update_order(id: int):
 def delete_order(id: int):
     order = Database.find_order_by_id(id)
     if not order:
-        return abort(404, f"Order with {id} was not found")
+        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across Node and Python
+        return Response("success", 200, mimetype="text/plain")
     Database.delete_order(id)
     return Response("success", 200, mimetype="text/plain")

@@ -41,7 +41,8 @@ def get_product(id: int):
 def update_product(id: int):
     product = Database.find_product_by_id(id)
     if not product:
-        return abort(404, f"Product with {id} was not found")
+        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across Node and Python
+        return Response("success", 200, mimetype="text/plain")
     new_data: Product = product_schema.load(request.json)  # type: ignore[return-value]
     Database.update_product(product, new_data)
     return Response("success", 200, mimetype="text/plain")
@@ -51,6 +52,7 @@ def update_product(id: int):
 def delete_product(id: int):
     product = Database.find_product_by_id(id)
     if not product:
-        return abort(404, f"Product with {id} was not found")
+        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across Node and Python
+        return Response("success", 200, mimetype="text/plain")
     Database.delete_product(id)
     return Response("success", 200, mimetype="text/plain")
