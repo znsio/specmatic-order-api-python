@@ -33,7 +33,7 @@ The open api contract for the services is defined in the [Specmatic Central Cont
   - on MacOS and Linux:
 
     ```shell
-    source venv/bin/activate
+    source .venv/bin/activate
     ```
 
   - on Windows:
@@ -41,13 +41,13 @@ The open api contract for the services is defined in the [Specmatic Central Cont
     on CMD
 
     ```cmd
-    .\venv\Scripts\activate.bat
+    .venv\Scripts\activate.bat
     ```
 
-    on PowerShell
+    on PowerShell ( might have to change ExecutionPolicy )
 
     ```powershell
-    .\venv\Scripts\activate.ps1
+    .\.venv\Scripts\Activate.ps1
     ```
 
 - **Install project requirements**
