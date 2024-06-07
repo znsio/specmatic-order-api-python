@@ -4,12 +4,6 @@ select = ["ALL"]
 ignore = [
     #### modules
     "ANN", # flake8-annotations
-    "COM", # flake8-commas
-    "C90", # mccabe complexity
-    "DJ",  # django
-    "EXE", # flake8-executable
-    "T10", # debugger
-    "TID", # flake8-tidy-imports
 
     #### specific rules
     "D100",    # missing docstring in public module
@@ -33,5 +27,6 @@ ignore = [
     "EM101",   # Exception must not use a string literal,
     "FBT001",  # boolean default value in function signature
     "PLR0913", # Too many arguments
-    "FBT002",  # boolean positional only argument
+    "FBT002",  # boolean positional only argument,
+    "PLR2004", # Magic value used in comparison,
 ]

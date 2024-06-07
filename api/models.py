@@ -8,28 +8,24 @@ class ProductType(str, enum.Enum):
     BOOK = "book"
     OTHER = "other"
 
-    def __str__(self):
-        return self.value
-
 
 class OrderStatus(str, enum.Enum):
     FULFILLED = "fulfilled"
     PENDING = "pending"
     CANCELLED = "cancelled"
 
-    def __str__(self):
-        return self.value
 
-
-class Product(TypedDict):
-    name: str
-    product_type: ProductType
-    inventory: int
+class Id(TypedDict):
     id: int
 
 
-class Order(TypedDict):
-    product_id: int
+class Product(Id):
+    name: str
+    type: ProductType
+    inventory: int
+
+
+class Order(Id):
+    productid: int
     count: int
     status: OrderStatus
-    id: int

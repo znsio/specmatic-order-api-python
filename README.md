@@ -94,5 +94,5 @@ The open api contract for the services is defined in the [Specmatic Central Cont
 - This should print the following output:
   
   ```cmd
-  Tests run: 19, Successes: 19, Failures: 0, Errors: 0
+  Tests run: 162, Successes: 162, Failures: 0, Errors: 0
   ```

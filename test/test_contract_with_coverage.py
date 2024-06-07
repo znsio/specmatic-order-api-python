@@ -1,8 +1,12 @@
+import os
+
 import pytest
 from specmatic.core.specmatic import Specmatic
 
 from api import app
 from definitions import ROOT_DIR
+
+os.environ["SPECMATIC_GENERATIVE_TESTS"] = "true"
 
 
 class TestContract:
