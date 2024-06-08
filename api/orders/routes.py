@@ -16,13 +16,15 @@ id_schema = IdSchema()
 
 @orders.route("/", methods=["GET"])
 def get_orders():
-    productid = request.args.get("productid")
-    if productid and productid.isdigit():
-        productid = int(productid)
+    data = request.args
 
-    data = request.args | {"productid": productid} if productid else {}
+    if (productid := data.get("productid")) and productid.isdigit():
+        productid = int(productid)
+        data = data | {"productid": productid}
+
+    # NOTE: args will not have count and id key, rest are Partial
     args: Order = new_order_schema.load(data, partial=True)  # type: ignore[reportAssignmentType]
-    if args.get("productid") is None and args.get("status") is None:
+    if not args.get("productid") and not args.get("status"):
         return order_schema.dump(Database.all_orders(), many=True)
 
     return order_schema.dump(Database.find_orders(args.get("productid"), args.get("status")), many=True)
@@ -31,7 +33,7 @@ def get_orders():
 @orders.route("/", methods=["POST"])
 def add_order():
     order: Order = new_order_schema.load(request.json)  # type: ignore[reportAssignmentType]
-    Database.add_order(order)
+    order = Database.add_order(order)
     return jsonify(id=order["id"])
 
 
@@ -48,7 +50,7 @@ def update_order(id: str):  # noqa: A002
     order = Database.find_order_by_id(params["id"])
     new_data: Order = order_schema.load(request.json)  # type: ignore[reportAssignmentType]
     if not order:
-        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across Node and Python
+        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across All Sample Projects
         return Response("success", 200, mimetype="text/plain")
     Database.update_order(order, new_data)
     return Response("success", 200, mimetype="text/plain")
@@ -59,7 +61,7 @@ def delete_order(id: str):  # noqa: A002
     params: Id = id_schema.load({"id": id})  # type: ignore[reportAssignmentType]
     order = Database.find_order_by_id(params["id"])
     if not order:
-        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across Node and Python
+        # TODO: Temporary 200 Response AS per v3_SPEC, Needs fixing across All Sample Projects
         return Response("success", 200, mimetype="text/plain")
     Database.delete_order(params["id"])
     return Response("success", 200, mimetype="text/plain")

@@ -1,98 +1,65 @@
-# This is a Python implementation of the [Secmatic Order API](https://github.com/znsio/specmatic-order-api) project
 
-## The implementation is based on [Python Flask](https://flask.palletsprojects.com/en/3.0.x/)
+# Specmatic Sample: Python-Flask Order API
 
-The open api contract for the services is defined in the [Specmatic Central Contract Repository](https://github.com/znsio/specmatic-order-contracts/blob/main/in/specmatic/examples/store/api_order_v3.yaml)
+* [Specmatic Website](https://specmatic.in)
+* [Specmatic Documentation](https://specmatic.in/documentation.html)
 
-### `Dev Setup`
+This sample project illustrates the implementation of contract-driven development and contract testing within a Flask (Python) application. In this context, Specmatic is utilized to function as a client, making calls to API service according to its OpenAPI specification to validate  its functionality.
 
-- Install Python 3.12 ( use homebrew if you are on mac os)
+Here is the API's [contract/open api spec](https://github.com/znsio/specmatic-order-contracts/blob/main/in/specmatic/examples/store/api_order_v3.yaml)
 
-- Install JRE 17 or later
+## Tech
 
-- Clone the git repository
+1. Flask
+2. Specmatic
+3. PyTest
+4. Coverage
 
-- **Virtual Environment Setup**
+## Setup
 
-- Create a "virtual environment" named '.venv' by running:
+1. Install [Python 3.12](https://www.python.org/)
+2. Install JRE 17 or later.
 
-  - ```shell
+## Setup Virtual Environment
+
+1. ### Create a virtual environment named ".venv" by executing the following command in the terminal from the project's root directory
+
+   ```shell
     python -m venv .venv
     ```
 
-- This will create a virtual environment using the default python installation, If you wish to provide a specific python installation, run:
+2. ### Activate virtual environment by executing
 
-  - ```shell
-    py -X.Y -m venv .venv
-    ```
+* **on MacOS and Linux**
 
-    where X and Y are the major and minor version numbers of the python installation to use.
+   ```shell
+   source .venv/bin/activate
+   ```
 
-- To activate your virtual environment, execute this from a terminal window in your root folder:
+* **on Windows CMD**
 
-  - on MacOS and Linux:
-
-    ```shell
-    source .venv/bin/activate
-    ```
-
-  - on Windows:
-  
-    on CMD
-
-    ```cmd
-    .venv\Scripts\activate.bat
-    ```
-
-    on PowerShell ( might have to change ExecutionPolicy )
-
-    ```powershell
-    .\.venv\Scripts\Activate.ps1
-    ```
-
-- **Install project requirements**
-
-  From a terminal window in your root folder, run:
-
-  ```shell
-  pip install -r requirements.txt
-  ```
-
-### `Start the Flask app`
-
-- From a terminal window in your root folder, run:
-
-  - ```shell
-    flask run
-    ```
-
-- This should start the flask dev server on <http://127.0.0.1:5000/>
-
-- To check, run this route from browser:
-
-  - <http://127.0.0.1:5000/products/10>
-
-- You should see a response like this:
-
-    ```json
-    {
-    "id": 10,
-    "inventory": 10,
-    "name": "XYZ Phone",
-    "type": "gadget"
-    }
-    ```
-
-### `Validate contract using Specmatic`
-
-- From a terminal window in your root folder, run:
-
-  - ```shell
-    pytest test -v -s
-    ```
-
-- This should print the following output:
-  
   ```cmd
-  Tests run: 162, Successes: 162, Failures: 0, Errors: 0
+  .venv\Scripts\activate.bat
   ```
+
+* **on Windows Powershell (you may need to adjust the ExecutionPolicy)**
+
+  ```powershell
+  .\.venv\Scripts\Activate.ps1
+  ```
+
+## Install Dependencies
+
+To install all necessary dependencies for this project, navigate to the project's root directory in your terminal and execute
+
+```shell
+pip install -r requirements.txt
+```
+
+## Execute Tests and Validate Contracts with Specmatic
+
+Executing this command will initiate Specmatic and execute the tests on the Flask application.
+
+```shell
+pytest test -v -s
+```

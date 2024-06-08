@@ -25,12 +25,8 @@ class Database:
         return Database._products.values()
 
     @staticmethod
-    def find_products(name: str, product_type: ProductType | None):
-        return [
-            product
-            for product in Database._products.values()
-            if product["name"].lower() == name.lower() or product["type"] == product_type
-        ]
+    def find_products(product_type: ProductType | None):
+        return [product for product in Database._products.values() if product["type"] == product_type]
 
     @staticmethod
     def find_product_by_id(product_id: int):
@@ -40,7 +36,7 @@ class Database:
     def find_product_by_id_or_404(product_id: int):
         product = Database.find_product_by_id(product_id)
         if not product:
-            abort(404, f"Product with {product_id} was not found")
+            abort(404, f"Product with ID {product_id} was not found")
         return product
 
     @staticmethod
@@ -52,6 +48,7 @@ class Database:
     def add_product(product: Product):
         product["id"] = next(Database.product_iter)
         Database._products[product["id"]] = product
+        return product
 
     @staticmethod
     def update_product(product: Product, new_data: Product):
@@ -64,7 +61,7 @@ class Database:
         return Database._orders.values()
 
     @staticmethod
-    def find_orders(product_id: int, status: OrderStatus | None):
+    def find_orders(product_id: int | None, status: OrderStatus | None):
         return [
             order
             for order in Database._orders.values()
@@ -79,7 +76,7 @@ class Database:
     def find_order_by_id_or_404(order_id: int):
         order = Database.find_order_by_id(order_id)
         if not order:
-            abort(404, f"Order with {order_id} was not found")
+            abort(404, f"Order with ID {order_id} was not found")
         return order
 
     @staticmethod
@@ -91,6 +88,7 @@ class Database:
     def add_order(order: Order):
         order["id"] = next(Database.order_iter)
         Database._orders[order["id"]] = order
+        return order
 
     @staticmethod
     def update_order(order: Order, new_data: Order):
