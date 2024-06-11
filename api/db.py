@@ -3,7 +3,8 @@ from typing import ClassVar
 
 from flask import abort
 
-from api.models import Order, OrderStatus, Product, ProductType
+from api.orders.models import Order, OrderStatus
+from api.products.models import Product, ProductType
 
 
 class Database:
@@ -22,76 +23,78 @@ class Database:
 
     @staticmethod
     def all_products():
-        return Database._products.values()
+        return list(Database._products.values())
 
     @staticmethod
-    def find_products(product_type: ProductType | None):
-        return [product for product in Database._products.values() if product["type"] == product_type]
-
-    @staticmethod
-    def find_product_by_id(product_id: int):
+    def get_product_by_id(product_id: int):
         return Database._products.get(product_id)
 
     @staticmethod
-    def find_product_by_id_or_404(product_id: int):
-        product = Database.find_product_by_id(product_id)
+    def get_product_by_id_or_404(product_id: int):
+        product = Database._products.get(product_id)
         if not product:
             abort(404, f"Product with ID {product_id} was not found")
         return product
 
     @staticmethod
-    def delete_product(product_id: int):
-        if Database._products.get(product_id):
-            del Database._products[product_id]
+    def search_products(product_type: ProductType | None):
+        if not product_type:
+            return Database.all_products()
+        return [product for product in Database._products.values() if product.type == product_type]
 
     @staticmethod
     def add_product(product: Product):
-        product["id"] = next(Database.product_iter)
-        Database._products[product["id"]] = product
+        product.id = next(Database.product_iter)
+        Database._products[product.id] = product
         return product
 
     @staticmethod
     def update_product(product: Product, new_data: Product):
-        product["name"] = new_data["name"]
-        product["type"] = new_data["type"]
-        product["inventory"] = new_data["inventory"]
+        product.name = new_data.name
+        product.type = new_data.type
+        product.inventory = new_data.inventory
+
+    @staticmethod
+    def delete_product(product: Product):
+        if Database._products.get(product.id):
+            del Database._products[product.id]
 
     @staticmethod
     def all_orders():
         return Database._orders.values()
 
     @staticmethod
-    def find_orders(product_id: int | None, status: OrderStatus | None):
-        return [
-            order
-            for order in Database._orders.values()
-            if order["productid"] == product_id or order["status"] == status
-        ]
-
-    @staticmethod
-    def find_order_by_id(order_id: int):
+    def get_order_by_id(order_id: int):
         return Database._orders.get(order_id)
 
     @staticmethod
-    def find_order_by_id_or_404(order_id: int):
-        order = Database.find_order_by_id(order_id)
+    def get_order_by_id_or_404(order_id: int):
+        order = Database._orders.get(order_id)
         if not order:
             abort(404, f"Order with ID {order_id} was not found")
         return order
 
     @staticmethod
-    def delete_order(order_id: int):
-        if Database._orders.get(order_id):
-            del Database._orders[order_id]
+    def __order_filter(order: Order, product_id: int | None, status: OrderStatus | None):
+        return (not product_id or order.productid == product_id) and (not status or order.status == status)
+
+    @staticmethod
+    def search_orders(product_id: int | None, status: OrderStatus | None):
+        return [order for order in Database._orders.values() if Database.__order_filter(order, product_id, status)]
 
     @staticmethod
     def add_order(order: Order):
-        order["id"] = next(Database.order_iter)
-        Database._orders[order["id"]] = order
+        order.id = next(Database.order_iter)
+        Database._orders[order.id] = order
         return order
 
     @staticmethod
     def update_order(order: Order, new_data: Order):
-        order["productid"] = new_data["productid"]
-        order["count"] = new_data["count"]
-        order["status"] = new_data["status"]
+        order.productid = new_data.productid
+        order.count = new_data.count
+        order.status = new_data.status
+
+    @staticmethod
+    def delete_order(order: Order):
+        if Database._orders.get(order.id):
+            del Database._orders[order.id]

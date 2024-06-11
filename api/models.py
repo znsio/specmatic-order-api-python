@@ -1,31 +1,15 @@
-import enum
-from typing import TypedDict
+from dataclasses import dataclass
+
+from api.schemas import IdSchema
+
+id_schema = IdSchema()
 
 
-class ProductType(str, enum.Enum):
-    GADGET = "gadget"
-    FOOD = "food"
-    BOOK = "book"
-    OTHER = "other"
-
-
-class OrderStatus(str, enum.Enum):
-    FULFILLED = "fulfilled"
-    PENDING = "pending"
-    CANCELLED = "cancelled"
-
-
-class Id(TypedDict):
+@dataclass
+class Id:
     id: int
 
-
-class Product(Id):
-    name: str
-    type: ProductType
-    inventory: int
-
-
-class Order(Id):
-    productid: int
-    count: int
-    status: OrderStatus
+    @staticmethod
+    def load(id: int | str):  # noqa: A002
+        data: dict = id_schema.load({"id": id})  # type: ignore[reportAssignmentType]
+        return Id(**data)
