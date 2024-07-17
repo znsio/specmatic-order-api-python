@@ -1,3 +1,4 @@
+import json
 from datetime import UTC, datetime
 
 from flask import Flask, jsonify
@@ -11,13 +12,11 @@ app.url_map.strict_slashes = False
 @app.errorhandler(ValidationError)
 def handle_marshmallow_validation_error(e: "ValidationError"):
     # NOTE:API SPEC V3 specifies that message should be a string not an object / array
-    errors = "\n".join([f"{field}: {", ".join(err)}" for field, err in e.normalized_messages().items()])
-
     return jsonify(
         timestamp=datetime.now(tz=UTC).isoformat(),
         status=400,
         error="Bad Request",
-        message=errors,
+        message=json.dumps(e.messages),
     ), 400
 
 
