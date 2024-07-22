@@ -1,12 +1,12 @@
 
 # Specmatic Sample: Python-Flask Order API
 
-* [Specmatic Website](https://specmatic.in)
-* [Specmatic Documentation](https://specmatic.in/documentation.html)
+* [Specmatic Website](https://specmatic.io)
+* [Specmatic Documentation](https://specmatic.io/documentation.html)
 
 This sample project illustrates the implementation of contract-driven development and contract testing within a Flask (Python) application. In this context, Specmatic is utilized to function as a client, making calls to API service according to its OpenAPI specification to validate  its functionality.
 
-Here is the API's [contract/open api spec](https://github.com/znsio/specmatic-order-contracts/blob/main/in/specmatic/examples/store/api_order_v3.yaml)
+Here is the API's [contract/open api spec](https://github.com/znsio/specmatic-order-contracts/blob/main/io/specmatic/examples/store/openapi/api_order_v3.yaml)
 
 ## Tech
 
