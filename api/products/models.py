@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import Any
 
+from flask import abort
+from werkzeug.datastructures import FileStorage
+
 from api.schemas import ProductSchema, ProductType
 
 product_schema = ProductSchema()
@@ -25,6 +28,12 @@ class Product:
             return None
         data: dict[str, ProductType] = new_product_schema.load({"type": p_type}, partial=True)  # type: ignore[reportAssignmentType]
         return data["type"]
+
+    @staticmethod
+    def validate_image(image: FileStorage | None):
+        if not image:
+            return abort(400, "No image was uploaded")
+        return image
 
     @staticmethod
     def load(data: Any):

@@ -1,4 +1,5 @@
 from flask import Blueprint, Response, jsonify, request
+from werkzeug.exceptions import HTTPException
 
 from api.db import Database
 from api.models import Id
@@ -42,3 +43,16 @@ def delete_product(id: str):  # noqa: A002F
     product = Database.get_product_by_id_or_404(params.id)
     Database.delete_product(product)
     return Response("success", 200, mimetype="text/plain")
+
+
+@products.route("<id>/image", methods=["PUT"])
+def update_product_image(id: str):  # noqa: A002
+    params: Id = Id.load(id)
+    try:
+        product = Database.get_product_by_id_or_404(params.id)
+    except HTTPException:
+        # TODO: Add example id in openAPI Specification on order_api_v3.yaml
+        return jsonify(message="Product image updated successfully", productId=params.id)
+    new_image = Product.validate_image(request.files.get("image"))
+    Database.update_product_image(product, new_image)
+    return jsonify(message="Product image updated successfully", productId=params.id)

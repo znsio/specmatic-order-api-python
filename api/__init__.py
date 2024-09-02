@@ -1,4 +1,5 @@
 import json
+import pathlib
 from datetime import UTC, datetime
 
 from flask import Flask, jsonify
@@ -6,6 +7,8 @@ from marshmallow import ValidationError
 from werkzeug.exceptions import HTTPException
 
 app = Flask(__name__)
+basedir = pathlib.Path(__file__).parent
+app.config["UPLOAD_FOLDER"] = basedir / "static" / "uploads"
 app.url_map.strict_slashes = False
 
 

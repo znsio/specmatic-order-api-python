@@ -1,8 +1,11 @@
+import pathlib
 from itertools import count
 from typing import ClassVar
 
 from flask import abort
+from werkzeug.datastructures import FileStorage
 
+from api import app
 from api.orders.models import Order, OrderStatus
 from api.products.models import Product, ProductType
 
@@ -13,6 +16,11 @@ class Database:
         20: Product(name="Gemini", type=ProductType.OTHER, inventory=10, id=20),
     }
 
+    _product_images: ClassVar[dict[int, list[str]]] = {
+        10: ["https://picsum.photos/id/0/5000/3333"],
+        20: ["https://picsum.photos/id/0/5000/3333"],
+    }
+
     _orders: ClassVar[dict[int, Order]] = {
         10: Order(productid=10, count=2, status=OrderStatus.PENDING, id=10),
         20: Order(productid=10, count=1, status=OrderStatus.PENDING, id=20),
@@ -20,6 +28,13 @@ class Database:
 
     product_iter = count((max(_products) + 1) if _products else 1)
     order_iter = count((max(_orders) + 1) if _orders else 1)
+
+    @staticmethod
+    def save_image(image: FileStorage, fallback_filename: str) -> str:
+        file_name = image.filename or fallback_filename
+        save_path = pathlib.Path(app.config["UPLOAD_FOLDER"]) / file_name
+        image.save(save_path)
+        return str(save_path)
 
     @staticmethod
     def all_products():
@@ -53,6 +68,17 @@ class Database:
         product.name = new_data.name
         product.type = new_data.type
         product.inventory = new_data.inventory
+
+    @staticmethod
+    def get_product_images(product: Product) -> list[str]:
+        return Database._product_images.get(product.id, [])
+
+    @staticmethod
+    def update_product_image(product: Product, new_image: FileStorage):
+        save_path = Database.save_image(new_image, fallback_filename=f"{product.id}.png")
+        if not Database._product_images.get(product.id):
+            Database._product_images[product.id] = []
+        Database._product_images[product.id].append(save_path)
 
     @staticmethod
     def delete_product(product: Product):
