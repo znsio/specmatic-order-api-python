@@ -7,7 +7,7 @@ from api import app
 from definitions import ROOT_DIR
 
 os.environ["SPECMATIC_GENERATIVE_TESTS"] = "true"
-os.environ["FILTER"] = "'/internal/metrics'"
+os.environ["FILTER"] = "PATH!='/internal/metrics'"
 
 class TestContract:
     pass
